@@ -22,35 +22,35 @@ function UsersList() {
 		doAddUser();
 	};
 
+	let content;
+
 	if (isLoadingUsers) {
-		return (
+		content = (
 			<Skeleton
 				className="h-10 w-full"
 				times={6}
 			/>
 		);
-	}
-
-	if (loadingUsersError) {
-		return <div>Error fetching data...</div>;
-	}
-
-	const renderedUsers = data.map((user) => {
-		return (
-			<div
-				className="mb-2 border rounded"
-				key={user.id}
-			>
-				<div className="flex p-2 justify-between items-center cursor-pointer">
-					{user.name}
+	} else if (loadingUsersError) {
+		content = <div>Error fetching data...</div>;
+	} else {
+		content = data.map((user) => {
+			return (
+				<div
+					className="mb-2 border rounded"
+					key={user.id}
+				>
+					<div className="flex p-2 justify-between items-center cursor-pointer">
+						{user.name}
+					</div>
 				</div>
-			</div>
-		);
-	});
+			);
+		});
+	}
 
 	return (
 		<div>
-			<div className="flex flex-row justify-between m-3">
+			<div className="flex flex-row justify-between m-3 items-center">
 				<h1 className="m-2 text-xl">Users</h1>
 				<Button
 					loading={isCreatingUser}
@@ -60,7 +60,7 @@ function UsersList() {
 				</Button>
 				{creatingUserError && 'Error creating user...'}
 			</div>
-			{renderedUsers}
+			{content}
 		</div>
 	);
 }
